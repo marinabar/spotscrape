@@ -7,9 +7,27 @@
 
 #1
 from SpotifyScraper.scraper import Scraper, Request
+import urllib.request
+import re
 
+url = str(input("your playlist url "))
 request = Request().request()
 scraper=Scraper(session=request)
-track_information = scraper.get_track_url_info(url="http://open.spotify.com/embed/track/6txVOdSbg928oeGhlVUrdK")
+playlist = scraper.get_playlist_url_info(url=url)
 
-print(track_information)
+titres = []
+
+for i in range(len(playlist['tracks_list'])):
+  titres.append([[], []])
+  titres[i][0] = playlist['tracks_list'][i]['track_name']
+  titres[i][1] = playlist['tracks_list'][i]['track_singer']
+
+print(titres)
+
+search_keyword= titres[0][0]+'+'+titres[0][1]
+html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+print("https://www.youtube.com/watch?v=" + video_ids[0])
+
+
+#print(playlist['tracks_list'][0]['track_name']) https://open.spotify.com/playlist/6iV0C1GGfNmkxH7M3qddl5
