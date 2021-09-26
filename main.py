@@ -10,25 +10,32 @@ from SpotifyScraper.scraper import Scraper, Request
 import urllib.request
 import re
 
-url = str(input("your playlist url "))
-request = Request().request()
-scraper=Scraper(session=request)
-playlist = scraper.get_playlist_url_info(url=url)
 
-titres = []
+def playList():
+    url = str(input("your playlist url "))
+    request = Request().request()
+    scraper=Scraper(session=request)
+    playlist = scraper.get_playlist_url_info(url=url)
 
-for i in range(len(playlist['tracks_list'])):
-  titres.append([[], []])
-  titres[i][0] = playlist['tracks_list'][i]['track_name']
-  titres[i][1] = playlist['tracks_list'][i]['track_singer']
+    titres = []
 
-print(titres)
+    for i in range(len(playlist['tracks_list'])):
+      titres.append([[], []])
+      titres[i][0] = playlist['tracks_list'][i]['track_name']
+      titres[i][1] = playlist['tracks_list'][i]['track_singer']
 
-search_keyword= titres[0][0]+'+'+titres[0][1]+'audio'
-search_keyword= "".join(search_keyword.split())
-html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
-video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-print("https://www.youtube.com/watch?v=" + video_ids[0])
+    print(titres)
+    return titres
 
+def findall(titres):
+    for i in range (len(titres)):
+      findvid(titres[i])
+
+def findvid(titre):
+    search_keyword= titre[0]+'+'+titre[1]+'audio'
+    search_keyword= "".join(search_keyword.split())
+    html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+    video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+    print("https://www.youtube.com/watch?v=" + video_ids[0])
 
 #https://open.spotify.com/playlist/6iV0C1GGfNmkxH7M3qddl5
