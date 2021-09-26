@@ -24,7 +24,8 @@ for i in range(len(playlist['tracks_list'])):
 
 print(titres)
 
-search_keyword= titres[0][0]+'+'+titres[0][1]
+search_keyword= titres[0][0]+'+'+titres[0][1]+'audio'
+search_keyword= "".join(search_keyword.split())
 html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
 video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
 print("https://www.youtube.com/watch?v=" + video_ids[0])
