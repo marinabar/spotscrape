@@ -9,6 +9,7 @@
 from SpotifyScraper.scraper import Scraper, Request
 from remover import remover
 import urllib.request
+import pandas as pd
 import re
 
 
@@ -40,3 +41,15 @@ def findvid(titre):
     print("https://www.youtube.com/watch?v=" + video_ids[0])
 
 #https://open.spotify.com/playlist/6iV0C1GGfNmkxH7M3qddl5
+
+def data(file):
+  titres = []
+
+  dt = pd.read_csv(file, usecols= ['Track Name','Arist(s) Name'])
+  for i in range (len(dt)):
+    titres.append([[], []])
+    titres[i][0]=dt.loc[i, 'Track Name']
+    titres[i][1]=dt.loc[i, 'Arist(s) Name']
+  return titres
+
+print(data('/home/mrnb/Téléchargements/spotlistr-exported-playlist.csv'))
