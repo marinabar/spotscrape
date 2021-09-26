@@ -7,6 +7,7 @@
 
 #1
 from SpotifyScraper.scraper import Scraper, Request
+from remover import remover
 import urllib.request
 import re
 
@@ -32,7 +33,7 @@ def findall(titres):
       findvid(titres[i])
 
 def findvid(titre):
-    search_keyword= titre[0]+'+'+titre[1]+'audio'
+    search_keyword= remover(titre[0]+'+'+titre[1]+'audio')
     search_keyword= "".join(search_keyword.split())
     html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
