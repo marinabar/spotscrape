@@ -16,7 +16,7 @@ import re
 
 import os, sys
 import youtube_dl
-from pytube import Youtube
+from pytube import YouTube
 
 
 
@@ -47,13 +47,13 @@ def data(file):
 
 def download(url):
 
-    video = Youtube(url).streams.filter(only_audio=True).first()
+    video = YouTube(url).streams.filter(only_audio=True).first()
   
     # check for destination to save file
     destination = '.'
       
     # download the file
-    out_file = video.download(output_path=destination)
+    out_file = video.download(output_path='$HOME')
       
     # save the file
     base, ext = os.path.splitext(out_file)
@@ -61,4 +61,4 @@ def download(url):
     os.rename(out_file, new_file)
       
     # result of success
-    print(Youtube(url).title + " has been successfully downloaded.")
+    print(YouTube(url).title + " has been successfully downloaded.")
