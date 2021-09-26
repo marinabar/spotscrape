@@ -7,13 +7,19 @@
 
 #1
 from SpotifyScraper.scraper import Scraper, Request
+
 from remover import remover
+
 import urllib.request
+
 import pandas as pd
 import re
 
+import sys
+import youtube_dl
 
-def playList():
+
+'''def playList():
     url = str(input("your playlist url "))
     request = Request().request()
     scraper=Scraper(session=request)
@@ -27,7 +33,7 @@ def playList():
       titres[i][1] = playlist['tracks_list'][i]['track_singer']
 
     print(titres)
-    return titres
+    return titres'''
 
 def findall(titres):
     for i in range (len(titres)):
@@ -53,3 +59,17 @@ def data(file):
   return titres
 
 print(data('/home/mrnb/Téléchargements/spotlistr-exported-playlist.csv'))
+
+def download(url):
+    ydl_opts = {
+      'format': 'bestaudio/best',
+      'postprocessors': [{
+          'key': 'FFmpegExtractAudio',
+          'preferredcodec': 'mp3',
+          'preferredquality': '192',
+      }],
+    }
+    if __name__ == "__main__":
+      with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+          filenames = url
+          ydl.download(filenames)
