@@ -18,6 +18,8 @@ import os, sys
 import youtube_dl
 from pytube import YouTube
 
+import eyed3
+
 
 
 def findall(titres):
@@ -36,11 +38,13 @@ def findvid(titre):
 def data(file):
   titres = []
 
-  dt = pd.read_csv(file, usecols= ['Track Name','Arist(s) Name'])
+  dt = pd.read_csv(file)
   for i in range (len(dt)):
-    titres.append([[], []])
+    titres.append([[], [], [], []])
     titres[i][0]=dt.loc[i, 'Track Name']
     titres[i][1]=dt.loc[i, 'Arist(s) Name']
+    titres[i][2]=dt.loc[i, 'Album Name']
+    titres[i][3]=dt.loc[i, 'Length']
   return titres
 
 #print(data('/home/mrnb/Téléchargements/spotlistr-exported-playlist.csv'))
@@ -62,3 +66,13 @@ def download(url):
       
     # result of success
     print(YouTube(url).title + " has been successfully downloaded.")
+
+def meta(file, playlist):
+  audiofile = eyed3.load(file)
+  titre = data(playlist)
+  audiofile.tag.artist = titre[0][0]
+  audiofile.tag.album = "Free For All Comp LP"
+  audiofile.tag.title = titre[0][1]
+
+  audiofile.tag.save()
+
