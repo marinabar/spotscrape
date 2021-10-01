@@ -7,8 +7,15 @@ from remover import remover
 file = '/home/mrnb/Téléchargements/spotlistr-exported-playlist (1).csv'
 '''meta(gendownloads(findall(data(file))), file)'''
 
-import eyed3
+from mutagen.easyid3 import EasyID3
+import mutagen
 
-audiofile = eyed3.load('Chiiild - Awake ft Mahalia (Audio).mp3')
-audiofile.initTag()
-print(audiofile)
+filepath = "/home/mrnb/Bureau/code/2021/spotscrape/Chiiild - Awake ft Mahalia (Audio).mp3"
+try :
+    audio = EasyID3(filepath)
+except mutagen.id3.ID3NoHeaderError:
+    audio = mutagen.File(filepath, easy=True)
+    audio.add_tags()
+    
+audio["title"] = u"Awake ft Mahalia"
+audio.save()
