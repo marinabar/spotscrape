@@ -1,5 +1,8 @@
 from SpotifyScraper.scraper import Scraper, Request
 
+import eyed3
+
+
 def playList():
     url = str(input("your playlist url "))
     request = Request().request()
@@ -29,3 +32,18 @@ def playList():
       with youtube_dl.YoutubeDL(ydl_opts) as ydl:
           filenames = url
           ydl.download(filenames)'''
+
+
+def meta(filenames, csvplaylist):
+  
+  titre = data(csvplaylist) #load file
+  for i in range (len(filenames)):
+    print(filenames[i])
+    audiofile = eyed3.load(filenames[i])
+    print(audiofile)
+    audiofile.initTag()
+    audiofile.tag.artist = titre[i][0]
+    audiofile.tag.album = titre[i][2]
+    audiofile.tag.title = titre[i][1]
+    audiofile.tag.save()
+
