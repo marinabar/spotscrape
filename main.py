@@ -17,7 +17,10 @@ import re
 import os, sys
 from pytube import YouTube
 
+from moviepy.editor import *
+from converter import conv
 
+import eyed3
 
 def data(file):
   #given a csv file, output a list with each track as a list of its title, length, album and artist
@@ -72,7 +75,8 @@ def download(url):
     # save the file
     base, ext = os.path.splitext(out_file)
     new_file = base + '.mp3'
-    os.rename(out_file, new_file)
+
+    conv(out_file, new_file)
       
     # result of success
     print(YouTube(url).title + " has been successfully downloaded.")
@@ -90,3 +94,15 @@ def gendownloads(urlvideos):
     return filenames
 
 
+def meta(filenames, csvplaylist):
+  
+  titre = data(csvplaylist) #load file
+  for i in range (len(filenames)):
+    print(filenames[i])
+    audiofile = eyed3.load(filenames[i])
+    print(audiofile)
+    audiofile.initTag()
+    audiofile.tag.artist = titre[i][0]
+    audiofile.tag.album = titre[i][2]
+    audiofile.tag.title = titre[i][1]
+    audiofile.tag.save()
