@@ -21,6 +21,7 @@ from moviepy.editor import *
 from converter import conv
 
 import eyed3
+from findartlyr import findart
 
 def data(file):
   #given a csv file, output a list with each track as a list of its title, length, album and artist
@@ -105,4 +106,5 @@ def meta(filenames, csvplaylist):
     audiofile.tag.artist = titre[i][0]
     audiofile.tag.album = titre[i][2]
     audiofile.tag.title = titre[i][1]
+    audiofile.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"", img_url=findart(titre[i][1], titre[i][2]))
     audiofile.tag.save()
