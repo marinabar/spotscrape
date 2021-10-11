@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
+import time
 import lxml
 from urllib.request import urlopen
+import urllib
 from urllib.parse import quote_plus
 
 headers = {
@@ -9,13 +11,15 @@ headers = {
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
 }
 
-urlbase='https://www.google.fr/search?q=bubble+tea&tbm=isch'
-html_page = requests.get(urlbase, headers=headers)
-print(html_page.url)
-soup = BeautifulSoup(html_page.content, 'lxml')
+#urlbase='https://www.google.fr/search?q=bubble+tea&tbm=isch'
 
-img_link = soup.find_all('img', class_='rg_i Q4LuWd')
-#full = urlbase+ext
 
-for image in img_link:
-    print(image.get('src'))
+def findart(titres):
+    urlbase= titres[0][5]
+    html = requests.get(urlbase)
+    soup = BeautifulSoup(html.content, 'lxml')
+    el = soup.findAll(class_="style-scope yt-img-shadow")
+    print(el)
+
+
+findart([['', '', 'n', 'z', 'f', "https://www.youtube.com/results?search_query=chiiild+mahalia+awake+album+audio"]])

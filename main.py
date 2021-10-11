@@ -17,11 +17,10 @@ import re
 import os, sys
 from pytube import YouTube
 
-from moviepy.editor import *
 from converter import conv
 
 import eyed3
-from findartlyr import findart
+#from findartlyr import findart
 
 def data(file):
   #given a csv file, output a list with each track as a list of its title, length, album and artist
@@ -43,9 +42,10 @@ def findall(titres):
     print (titres)
     urlsvideos=[]
     for i in range (len(titres)):
-      urlsvideos.append(findvid(titres[i]))
-
-    return urlsvideos
+      titres[i].append([], [])
+      titres[i][4], titres[i][5] = findvid(titres[i])
+  
+    return titres
 
 
 def findvid(titre):
@@ -53,15 +53,11 @@ def findvid(titre):
     search_keyword= (remover(str(titre[0]) + str(titre[1])+'album audio'))
     print(search_keyword)
     search_keyword= "".join(search_keyword.split())
-    html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+    url = "https://www.youtube.com/results?search_query=" + search_keyword
+    html = urllib.request.urlopen(url)
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
 
-    return ("https://www.youtube.com/watch?v=" + video_ids[0])
-
-#https://open.spotify.com/playlist/6iV0C1GGfNmkxH7M3qddl5
-
-
-#print(data('/home/mrnb/Téléchargements/spotlistr-exported-playlist.csv'))
+    return ("https://www.youtube.com/watch?v=" + video_ids[0], url)
 
 def download(url):
   #download mp3 given a youtube url
@@ -83,12 +79,13 @@ def download(url):
     print(YouTube(url).title + " has been successfully downloaded.")
     return new_file
 
+
 def gendownloads(urlvideos):
   #loop over all urls in list and download each one of them
 
     filenames = []
     for i in range (len(urlvideos)):
-      filenames.append(download(urlvideos[i]))
+      filenames.append(download(urlvideos[i][4]))
 
     print(filenames)
 
@@ -106,5 +103,5 @@ def meta(filenames, csvplaylist):
     audiofile.tag.artist = titre[i][0]
     audiofile.tag.album = titre[i][2]
     audiofile.tag.title = titre[i][1]
-    audiofile.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"", img_url=findart(titre[i][1], titre[i][2]))
+    #audiofile.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"", img_url=findart(titre[i][1], titre[i][2]))
     audiofile.tag.save()
