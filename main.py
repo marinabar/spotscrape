@@ -42,7 +42,8 @@ def findall(titres):
     print (titres)
     urlsvideos=[]
     for i in range (len(titres)):
-      titres[i].append([], [])
+      titres[i].append([])
+      titres[i].append([])
       titres[i][4], titres[i][5] = findvid(titres[i])
   
     return titres
@@ -80,29 +81,28 @@ def download(url):
     return new_file
 
 
-def gendownloads(urlvideos):
+def gendownloads(titres):
   #loop over all urls in list and download each one of them
 
     filenames = []
-    for i in range (len(urlvideos)):
-      filenames.append(download(urlvideos[i][4]))
+    for i in range (len(titres)):
+      titres[i].append(download(titres[i][4]))
 
-    print(filenames)
+    #print(filenames)
 
-    return filenames
+    return titres
 
 
-def meta(filenames, csvplaylist):
-  
-  titre = data(csvplaylist) #load file
-  for i in range (len(filenames)):
-    print(filenames[i])
-    audiofile = eyed3.load(filenames[i])
-    print(audiofile)
+def meta(titres):
+  print(titres)
+
+  for titre in titres:
+    audiofile = eyed3.load(titre[6])
     audiofile.initTag()
-    audiofile.tag.artist = titre[i][0]
-    audiofile.tag.album = titre[i][2]
-    audiofile.tag.title = titre[i][1]
-    audiofile.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"album art", img_url=u"https://img.youtube.com/vi//mqdefault.jpg")
-    #audiofile.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"", img_url=findart(titre[i][1], titre[i][2]))
+    audiofile.tag.artist = titre[1]
+    audiofile.tag.album = titre[2]
+    audiofile.tag.title = titre[0]
+    response = urllib.request.urlopen("https://img.youtube.com/vi/{}/mqdefault.jpg".format(titre[5]))
+    imagedata = response.read()
+    audiofile.tag.images.set(3, imagedata, "image/jpeg", u"cover art")
     audiofile.tag.save()

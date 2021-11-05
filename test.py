@@ -5,6 +5,6 @@ from remover import remover
 
 #download('https://www.youtube.com/watch?v=K58GojV2tz0')
 file = '/home/mrnb/Téléchargements/spotlistr-exported-playlist (1).csv'
-meta(gendownloads(findall(data(file))), file)
+meta(gendownloads(findall(data(file))))
 
 
