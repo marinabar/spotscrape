@@ -57,7 +57,7 @@ def findvid(titre):
     html = urllib.request.urlopen(url)
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
 
-    return ("https://www.youtube.com/watch?v=" + video_ids[0], url)
+    return ("https://www.youtube.com/watch?v=" + video_ids[0], video_ids[0])
 
 def download(url):
   #download mp3 given a youtube url
@@ -103,5 +103,6 @@ def meta(filenames, csvplaylist):
     audiofile.tag.artist = titre[i][0]
     audiofile.tag.album = titre[i][2]
     audiofile.tag.title = titre[i][1]
+    audiofile.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"album art", img_url=u"https://img.youtube.com/vi//mqdefault.jpg")
     #audiofile.tag.images.set(type_=3, img_data=None, mime_type=None, description=u"", img_url=findart(titre[i][1], titre[i][2]))
     audiofile.tag.save()
