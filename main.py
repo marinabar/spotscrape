@@ -85,7 +85,7 @@ def gendownloads(titres):
 
 
 def meta(titres):
-  print(titres)
+  #print(titres)
 
   for titre in titres:
     audiofile = eyed3.load(titre[6])
@@ -93,7 +93,16 @@ def meta(titres):
     audiofile.tag.artist = titre[1]
     audiofile.tag.album = titre[2]
     audiofile.tag.title = titre[0]
-    response = urllib.request.urlopen("https://img.youtube.com/vi/{}/mqdefault.jpg".format(titre[5]))
-    imagedata = response.read()
-    audiofile.tag.images.set(3, imagedata, "image/jpeg", u"cover art")
+
+    imgURL = "https://img.youtube.com/vi/{}/mqdefault.jpg".format(titre[5]) #download from youtube thumbnail
+    path = "art.jpg"
+    urllib.request.urlretrieve(imgURL, path) # get request
+    img = Image.open(path)
+    area = (70, 0, 250, 180) #each img has the same area
+    image = img.crop(area)
+    image.save(path, format="JPEG", optimize=True) #save image
+    audiofile.tag.images.set(3, open(path, 'rb').read(), 'image/jpeg')
+
     audiofile.tag.save()
+  
+  os.remove(path)
