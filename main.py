@@ -32,7 +32,6 @@ def data(file):
 
 def findall(titres):
   #for a given list, find all youtube urls
-    print (titres)
     urlsvideos=[]
     for i in range (len(titres)):
       titres[i].append([])
@@ -45,7 +44,7 @@ def findall(titres):
 def findvid(titre):
   #given a song title, find its corresponding url
     search_keyword= (remover(str(titre[0]) + str(titre[1])+'album audio'))
-    print(search_keyword)
+    print("Searching for " + search_keyword)
     search_keyword= "".join(search_keyword.split())
     url = "https://www.youtube.com/results?search_query=" + search_keyword
     html = urllib.request.urlopen(url)
@@ -85,10 +84,15 @@ def gendownloads(titres):
 
     return titres
 
+class AppURLopener(urllib.request.FancyURLopener):
+    version = "Mozilla/5.0"
+
+opener = AppURLopener() # otherwise can't open url with urllib
+
 
 def meta(titres):
   #print(titres)
-
+  token = str(input("Please paste your token "))
   for titre in titres:
     audiofile = eyed3.load(titre[6])
     audiofile.initTag()
@@ -96,10 +100,10 @@ def meta(titres):
     audiofile.tag.album = titre[2]
     audiofile.tag.title = titre[0]
 
-    lyrics, image = getlyricsfromname(titre[0], titre[1])
+    lyrics, image = getlyricsfromname(titre[0], titre[1], token)
     audiofile.tag.lyrics.set(lyrics)
 
-    response = urllib.request.urlopen(image)  
+    response = opener.open(image)  
     imagedata = response.read()
     if image.split(".")[4] == 'png' :
       type_ = 'image/png' # gets the extension
