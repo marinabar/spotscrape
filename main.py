@@ -1,5 +1,6 @@
 from remover import remover
-from findlyrics import getlyricsfromname
+from getartgenius import artfromsong
+from getlyricAZ import getlyrics
 
 import urllib.request
 
@@ -13,7 +14,6 @@ from converter import conv
 
 import eyed3
 from PIL import Image
-#from findartlyr import findart
 
 def data(file):
   #given a csv file, output a list with each track as a list of its title, length, album and artist
@@ -100,8 +100,9 @@ def meta(titres):
     audiofile.tag.album = titre[2]
     audiofile.tag.title = titre[0]
 
-    lyrics, image = getlyricsfromname(titre[0], titre[1], token)
-    audiofile.tag.lyrics.set(lyrics)
+    image = artfromsong(titre[0], titre[1], token)
+    lyrics = getlyrics(titre)
+    #audiofile.tag.lyrics.set(lyrics)
 
     response = opener.open(image)  
     imagedata = response.read()
