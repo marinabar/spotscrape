@@ -1,4 +1,5 @@
 from remover import remover
+from findlyrics import getlyricsfromname
 
 import urllib.request
 
@@ -95,15 +96,16 @@ def meta(titres):
     audiofile.tag.album = titre[2]
     audiofile.tag.title = titre[0]
 
-    imgURL = "https://img.youtube.com/vi/{}/mqdefault.jpg".format(titre[5]) #download from youtube thumbnail
-    path = "art.jpg"
-    urllib.request.urlretrieve(imgURL, path) # get request
-    img = Image.open(path)
-    area = (70, 0, 250, 180) #each img has the same area
-    image = img.crop(area)
-    image.save(path, format="JPEG", optimize=True) #save image
-    audiofile.tag.images.set(3, open(path, 'rb').read(), 'image/jpeg')
+    lyrics, image = getlyricsfromname(titre[0], titre[1])
+    audiofile.tag.lyrics.set(lyrics)
+
+    response = urllib.request.urlopen(image)  
+    imagedata = response.read()
+    if image.split(".")[4] == 'png' :
+      type_ = 'image/png' # gets the extension
+    else:
+      type_ = "image/jpeg"
+    audiofile.tag.images.set(3, imagedata, type_, description=u"album art")
+
 
     audiofile.tag.save(encoding='utf-8')
-  
-  os.remove(path)
