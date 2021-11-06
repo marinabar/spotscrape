@@ -1,9 +1,6 @@
 from main import findvid, data, findall, download, gendownloads, meta
 from remover import remover
 
-import eyed3
-import urllib
-from findlyrics import getlyricsfromname
 
 
 file = '/home/mrnb/Téléchargements/spotlistr-exported-playlist (1).csv'

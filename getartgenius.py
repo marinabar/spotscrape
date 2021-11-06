@@ -9,9 +9,7 @@ def artfromsong(nom, artiste, token):
 
   song_title = nom.split("(")[0]
   artist_name = artiste.replace(";", " &").strip()
-  print(artist_name.split("&")[0], song_title)
   query = song_title + " "+ artist_name.split("&")[0]
-  print (query)
 
   search_url = base_url + "/search"
   data = {'q': query}
@@ -26,3 +24,5 @@ def artfromsong(nom, artiste, token):
     image = song_info["result"]["header_image_thumbnail_url"]
     print(image)
     return (image) 
+
+#artfromsong("Je te laisserai des mots", "Patrick Watson", "KOl3mg2btk9MDpm3QBdeeB3IUkMjo2BUS1DtQkG5AO1KdP2b1YRmXJQvPF0BGUOy")

@@ -91,7 +91,6 @@ opener = AppURLopener() # otherwise can't open url with urllib
 
 
 def meta(titres):
-  #print(titres)
   token = str(input("Please paste your token "))
   for titre in titres:
     audiofile = eyed3.load(titre[6])
@@ -101,8 +100,10 @@ def meta(titres):
     audiofile.tag.title = titre[0]
 
     image = artfromsong(titre[0], titre[1], token)
+
     lyrics = getlyrics(titre)
-    #audiofile.tag.lyrics.set(lyrics)
+    if lyrics:
+      audiofile.tag.lyrics.set(lyrics)
 
     response = opener.open(image)  
     imagedata = response.read()
