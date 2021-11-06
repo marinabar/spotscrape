@@ -11,6 +11,7 @@ from pytube import YouTube
 from converter import conv
 
 import eyed3
+from PIL import Image
 #from findartlyr import findart
 
 def data(file):
@@ -103,6 +104,6 @@ def meta(titres):
     image.save(path, format="JPEG", optimize=True) #save image
     audiofile.tag.images.set(3, open(path, 'rb').read(), 'image/jpeg')
 
-    audiofile.tag.save()
+    audiofile.tag.save(encoding='utf-8')
   
   os.remove(path)
