@@ -11,7 +11,7 @@ def getlyricsgoogle(titre):
     song = ''.join((titre[0].split('(')[0])).strip() # only take the part without the parenthesis
     song = song.replace(" ", "+") # same around here
 
-    queryurl = ("https://www.google.com/search?q=+lyrics+"+artist1+"+"+song).lower()
+    queryurl = ("https://www.google.com/search?q=+lyrics+"+artist1+"+"+song).lower().replace("'", "")
     print(queryurl)
 
 
