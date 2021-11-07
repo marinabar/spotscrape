@@ -24,5 +24,3 @@ def artfromsong(nom, artiste, token):
     image = song_info["result"]["header_image_thumbnail_url"]
     print(image)
     return (image) 
-
-#artfromsong("Je te laisserai des mots", "Patrick Watson", "KOl3mg2btk9MDpm3QBdeeB3IUkMjo2BUS1DtQkG5AO1KdP2b1YRmXJQvPF0BGUOy")
