@@ -56,7 +56,8 @@ class Spotscrape:
     #given a song title, find its corresponding url
       search_keyword= (remover(str(titre[0]) + " "+str(titre[1])+' audio')).lower()
       print("Searching for " + search_keyword)
-      search_keyword= "".join(search_keyword.split())
+      search_keyword= search_keyword.replace(" ", "+")
+      print(search_keyword)
 
       url = "https://www.youtube.com/results?search_query=" + search_keyword
       html = urllib.request.urlopen(url)
@@ -108,7 +109,8 @@ class Spotscrape:
     audioclip = AudioFileClip(mp4)
     audioclip.write_audiofile(mp3)
     audioclip.close()
-    dir_name = "/home/mrnb/Bureau/code/2021/spotscrape/"+ dire + "/"
+    # linux dir_name = "/home/mrnb/Bureau/code/2021/spotscrape/"+ dire + "/"
+    dir_name = "C:/Users/marin/Documents/spotscrape/" + dire + '/' # windows
     test = os.listdir(dir_name)
     for item in test:
         if item.endswith(".mp4"):
