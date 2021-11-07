@@ -24,3 +24,11 @@ def artfromsong(nom, artiste, token):
     image = song_info["result"]["header_image_thumbnail_url"]
     print(image)
     return (image) 
+
+# add to main code if want to use
+
+    #if image.split(".")[4] == 'png' :
+      #type_ = 'image/png' # gets the extension
+    #else:
+      #type_ = "image/jpeg"
+    #only for genius api art
