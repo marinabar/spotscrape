@@ -1,8 +1,8 @@
 import requests
-from googley import getlyricsgoogle
 from bs4 import BeautifulSoup
 
-def getlyrics(titre):
+def getlyricsgoogle(titre):
+    lyrics = ""
     artist1 = titre[1].strip() #remove whitespaces around
     if artist1 == 'NCT 127' or artist1 == 'NCT DREAM':
         artist1 = 'NCT' #handle with care <3
@@ -11,26 +11,17 @@ def getlyrics(titre):
     song = ''.join((titre[0].split('(')[0])).strip() # only take the part without the parenthesis
     song = song.replace(" ", "+") # same around here
 
-    queryurl = ("https://search.azlyrics.com/search.php?q="+artist1+"+"+song).lower()
+    queryurl = ("https://www.google.com/search?q=+lyrics+"+artist1+"+"+song).lower()
     print(queryurl)
 
 
     r= requests.get(queryurl, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"})
     soup = BeautifulSoup(r.content, "html.parser")
-    try:
-        lyricurl = soup.find("td").find("a")["href"]
-        print(lyricurl) # get lyrics link
+    els = soup.select("div[class^=ujudUb]")
+    for one in els:
+        for sentence in one:
+            lyrics += sentence.text # append found text to string
+            lyrics += "\n" 
+        lyrics += "\n\n"
 
-        return getlyrfromurl(lyricurl)
-
-    except AttributeError:
-        print("Getting lyrics from Google...")
-        return getlyricsgoogle(titre)
-
-
-
-def getlyrfromurl(url):
-    soup = BeautifulSoup(requests.get(url).content, "html.parser")
-    lyric = soup.select_one(".ringtone ~ div").get_text(separator="\n") # at least they're all in the same tag...
-
-    return lyric
+    return lyrics
