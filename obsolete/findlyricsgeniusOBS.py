@@ -6,7 +6,6 @@ base_url = "http://api.genius.com"
 
 
 def getlyricsfromname(nom, artiste, token):
-
   headers = {'Authorization': ('Bearer '+token)}
 
   song_title = nom.split("(")[0]
@@ -46,7 +45,7 @@ def lyrics_from_song_api_path(song_api_path, headers):
   #remove script tags that they put in the middle of the lyrics
   [h.extract() for h in html('script')]
   print(html)
-  #at least Genius is nice and has a tag called 'lyrics'!
+  
   try:
     lyrics = html.find("div", class_="lyrics").get_text() #updated css where the lyrics are based in HTML
   except AttributeError:
