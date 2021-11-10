@@ -25,7 +25,7 @@ def artfromsong(nom, artiste, token):
     print(image)
     return (image) 
 
-# add to main code if want to use
+# add to main code if you want to use Genius API for art 
 
     #if image.split(".")[4] == 'png' :
       #type_ = 'image/png' # gets the extension
