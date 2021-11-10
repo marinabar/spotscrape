@@ -1,4 +1,4 @@
-#crops downloaded album art to basic format
+#crops downloaded album art to basic format from youtube video id
 from PIL import Image
 import urllib.request
 import eyed3
