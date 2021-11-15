@@ -10,4 +10,4 @@ Date published
 Usage:
 run main.py (no need to use the obsolete folder, delete it) with a CSV created by the amazing https://watsonbox.github.io/exportify/ (yes, you could objectively also automate this), adjust the encoding in the Pandas assignment accordingly and go
 
-exportify is quite useful in the way that you can even download you're private playlists (as login is needed)
+exportify is quite useful in the way that you can even download your private playlists (as login is needed)
