@@ -1,4 +1,4 @@
-from remover import remover
+from remover import nostuff, remover
 from getlyricAZ import getlyrics
 
 import urllib.request
@@ -13,6 +13,8 @@ from moviepy.editor import AudioFileClip
 import os
 
 import eyed3
+
+
 
 def rem(word):
   normal = (re.sub("AC0", "", word)).replace("+", "").replace("-", "")
@@ -55,6 +57,7 @@ class Spotscrape:
   def findvid(self, titre):
     #given a song title, find its corresponding url
       search_keyword= (remover(str(titre[0]) + " "+str(titre[1])+' audio')).lower()
+      search_keyword = nostuff(search_keyword)
       print("Searching for " + search_keyword)
       search_keyword= search_keyword.replace(" ", "+")
       print(search_keyword)
@@ -85,6 +88,7 @@ class Spotscrape:
 
   def download(self, url, dire):
   #download mp3 given a youtube url
+    print(url)
     video = YouTube(url).streams.filter(only_audio=True).first()
   
     # check for destination to save file
@@ -109,8 +113,9 @@ class Spotscrape:
     audioclip = AudioFileClip(mp4)
     audioclip.write_audiofile(mp3)
     audioclip.close()
-    # linux dir_name = "/home/mrnb/Bureau/code/2021/spotscrape/"+ dire + "/"
-    dir_name = "C:/Users/marin/Documents/spotscrape/" + dire + '/' # windows
+    # linux 
+    cwd = os.getcwd()
+    dir_name = os.path.join(cwd, dire)
     test = os.listdir(dir_name)
     for item in test:
         if item.endswith(".mp4"):
@@ -151,4 +156,13 @@ class Spotscrape:
 
 file = str(input("Specify your csv file : "))
 dire= str(input("Create a name for your music directory "))
-Spotscrape().assemble(file, dire)
+
+import codecs
+import shutil
+
+with open(file, 'rb') as source_file:
+  with open("16.csv", 'w+b') as dest_file:
+    contents = source_file.read()
+    dest_file.write(contents.decode('utf-8').encode('utf-16'))
+
+Spotscrape().assemble("16.csv", dire)
