@@ -1,13 +1,14 @@
-Created for a personal issue of not being able to properly download my Spotify playlists.
+Created for a personal issue of not being able to properly download my Spotify playlists (needs pytube package).
+
 Downloads song with all metadata, including
 Album art
-Lyrics (scraped either from AZlyrics or Google, depeding whether you've been already blocked by AZlyrics)
+Lyrics (scraped either from AZlyrics or Google, depending on whether you've been blocked already by AZlyrics)
 Album name
 Artist
 Title
 Date published
 
 Usage:
-run main.py (no need to use the obsolete folder, delete it) with a CSV created by the amazing https://watsonbox.github.io/exportify/ (yes, you could objectively also automate this), adjust the encoding in the Pandas assignment accordingly and go
+run main.py with a CSV created by the amazing https://watsonbox.github.io/exportify/ (yes, you could objectively also automate this as well)
 
-exportify is quite useful in the way that you can even download your private playlists (as login is needed)
+exportify is quite useful as you can even export your private playlists (your login is needed)
