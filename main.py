@@ -157,9 +157,6 @@ class Spotscrape:
 file = str(input("Specify your csv file : "))
 dire= str(input("Create a name for your music directory "))
 
-import codecs
-import shutil
-
 with open(file, 'rb') as source_file:
   with open("16.csv", 'w+b') as dest_file:
     contents = source_file.read()
