@@ -2,6 +2,7 @@ from remover import nostuff, remover
 from getlyricAZ import getlyrics
 
 import urllib.request
+from urllib.parse import quote_plus
 
 import pandas as pd
 import re
@@ -56,13 +57,16 @@ class Spotscrape:
 
   def findvid(self, titre):
     #given a song title, find its corresponding url
+      print(titre)
       search_keyword= (remover(str(titre[0]) + " "+str(titre[1])+' audio')).lower()
       search_keyword = nostuff(search_keyword)
       print("Searching for " + search_keyword)
       search_keyword= search_keyword.replace(" ", "+")
       print(search_keyword)
+      coded_keyword = quote_plus(search_keyword)
+      print(f"Searching for {coded_keyword}")
 
-      url = "https://www.youtube.com/results?search_query=" + search_keyword
+      url = "https://www.youtube.com/results?search_query=" + coded_keyword
       html = urllib.request.urlopen(url)
 
       video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
@@ -157,9 +161,9 @@ class Spotscrape:
 file = str(input("Specify your csv file : "))
 dire= str(input("Create a name for your music directory "))
 
-with open(file, 'rb') as source_file: # convert to needed format 
+with open(file, 'r', encoding='utf-8') as source_file: # convert to needed format 
   with open("16.csv", 'w+b') as dest_file:
     contents = source_file.read()
-    dest_file.write(contents.decode('utf-8').encode('utf-16'))
+    dest_file.write(contents.encode('utf-16'))
 
-Spotscrape().assemble("16.csv", dire)
+Spotscrape().assemble("16_cyrillic.csv", dire)

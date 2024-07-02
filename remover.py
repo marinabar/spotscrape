@@ -2,11 +2,11 @@ import unicodedata
 import re
 
 def remover(text):
-        text = unicodedata.normalize('NFD', text)\
-            .encode('ascii', 'ignore')\
-            .decode("utf-8")
-
-        return str(text)
+    cleaned_text = []
+    for char in text:
+        if unicodedata.category(char).startswith('L') or char.isnumeric() or char.isspace():
+            cleaned_text.append(char)
+    return ''.join(cleaned_text)
 
 def nostuff(text):
 
